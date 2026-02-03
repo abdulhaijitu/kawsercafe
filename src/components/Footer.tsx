@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { MapPin, Phone, Clock } from 'lucide-react';
-import logo from '@/assets/logo.png';
+import logoWhite from '@/assets/logo-white.png';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -14,9 +14,9 @@ const Footer = () => {
           <div className="sm:col-span-2 lg:col-span-1">
             <Link to="/" className="inline-block">
               <img 
-                src={logo} 
+                src={logoWhite} 
                 alt="DOLCE BARI" 
-                className="h-10 w-auto brightness-0 invert opacity-90"
+                className="h-10 w-auto"
               />
             </Link>
             <p className="mt-5 text-primary-foreground/80 text-sm leading-relaxed max-w-xs">
