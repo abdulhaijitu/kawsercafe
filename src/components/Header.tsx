@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
+import logo from '@/assets/logo.png';
 
 const navLinks = [
   { name: 'Home', path: '/' },
@@ -38,13 +39,12 @@ const Header = () => {
     >
       <div className="container-luxury flex items-center justify-between">
         {/* Logo */}
-        <Link to="/" className="flex flex-col items-start">
-          <span className="font-serif text-2xl md:text-3xl font-medium tracking-wide text-foreground">
-            DOLCE BARI
-          </span>
-          <span className="text-luxury-caps text-muted-foreground text-[10px] mt-0.5">
-            Sweets & Café
-          </span>
+        <Link to="/" className="flex items-center">
+          <img 
+            src={logo} 
+            alt="DOLCE BARI" 
+            className="h-10 md:h-12 w-auto"
+          />
         </Link>
 
         {/* Desktop Navigation */}
