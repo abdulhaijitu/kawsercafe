@@ -66,13 +66,12 @@ const Header = () => {
 
         {/* Order Button - Desktop */}
         <div className="hidden md:block">
-          <button
-            disabled
-            className="btn-luxury-outline opacity-60 cursor-not-allowed text-xs px-6 py-2.5"
-            title="Coming Soon"
+          <Link
+            to="/order"
+            className="btn-luxury-outline text-xs px-6 py-2.5"
           >
             Order Online
-          </button>
+          </Link>
         </div>
 
         {/* Mobile Menu Button */}
@@ -106,13 +105,12 @@ const Header = () => {
             </Link>
           ))}
           <div className="pt-4 border-t border-border">
-            <button
-              disabled
-              className="btn-luxury-outline opacity-60 cursor-not-allowed text-xs w-full"
-              title="Coming Soon"
+            <Link
+              to="/order"
+              className="btn-luxury-outline text-xs w-full text-center block"
             >
-              Order Online — Coming Soon
-            </button>
+              Order Online
+            </Link>
           </div>
         </nav>
       </div>
