@@ -97,8 +97,16 @@ const Footer = () => {
           <p className="text-primary-foreground/60 text-xs tracking-wide">
             © {currentYear} DOLCE BARI. All rights reserved.
           </p>
-          <p className="text-primary-foreground/40 text-xs italic">
-            *Placeholder images shown.
+          <p className="text-primary-foreground/40 text-xs">
+            Design & Developed by{' '}
+            <a 
+              href="http://creationtechbd.com/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-gold-light hover:text-gold transition-colors duration-200"
+            >
+              Creation Tech
+            </a>
           </p>
         </div>
       </div>
