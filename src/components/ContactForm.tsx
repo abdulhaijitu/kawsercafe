@@ -4,7 +4,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
@@ -69,26 +68,26 @@ const ContactForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
       {/* Name */}
-      <div className="space-y-2">
-        <Label htmlFor="name" className="text-luxury-caps text-foreground">
+      <div className="space-y-1.5">
+        <Label htmlFor="name" className="text-xs uppercase tracking-wider text-foreground font-medium">
           Name *
         </Label>
         <Input
           id="name"
           {...register('name')}
           placeholder="Your full name"
-          className="bg-background border-border focus:border-gold focus:ring-gold"
+          className="bg-background border-border focus:border-gold focus:ring-gold h-12 text-base"
         />
         {errors.name && (
-          <p className="text-destructive text-sm">{errors.name.message}</p>
+          <p className="text-destructive text-xs">{errors.name.message}</p>
         )}
       </div>
 
       {/* Email */}
-      <div className="space-y-2">
-        <Label htmlFor="email" className="text-luxury-caps text-foreground">
+      <div className="space-y-1.5">
+        <Label htmlFor="email" className="text-xs uppercase tracking-wider text-foreground font-medium">
           Email *
         </Label>
         <Input
@@ -96,16 +95,16 @@ const ContactForm = () => {
           type="email"
           {...register('email')}
           placeholder="your.email@example.com"
-          className="bg-background border-border focus:border-gold focus:ring-gold"
+          className="bg-background border-border focus:border-gold focus:ring-gold h-12 text-base"
         />
         {errors.email && (
-          <p className="text-destructive text-sm">{errors.email.message}</p>
+          <p className="text-destructive text-xs">{errors.email.message}</p>
         )}
       </div>
 
       {/* Phone */}
-      <div className="space-y-2">
-        <Label htmlFor="phone" className="text-luxury-caps text-foreground">
+      <div className="space-y-1.5">
+        <Label htmlFor="phone" className="text-xs uppercase tracking-wider text-foreground font-medium">
           Phone <span className="text-muted-foreground font-normal normal-case">(optional)</span>
         </Label>
         <Input
@@ -113,51 +112,51 @@ const ContactForm = () => {
           type="tel"
           {...register('phone')}
           placeholder="+61 400 000 000"
-          className="bg-background border-border focus:border-gold focus:ring-gold"
+          className="bg-background border-border focus:border-gold focus:ring-gold h-12 text-base"
         />
         {errors.phone && (
-          <p className="text-destructive text-sm">{errors.phone.message}</p>
+          <p className="text-destructive text-xs">{errors.phone.message}</p>
         )}
       </div>
 
       {/* Subject */}
-      <div className="space-y-2">
-        <Label htmlFor="subject" className="text-luxury-caps text-foreground">
+      <div className="space-y-1.5">
+        <Label htmlFor="subject" className="text-xs uppercase tracking-wider text-foreground font-medium">
           Subject *
         </Label>
         <Input
           id="subject"
           {...register('subject')}
           placeholder="How can we help you?"
-          className="bg-background border-border focus:border-gold focus:ring-gold"
+          className="bg-background border-border focus:border-gold focus:ring-gold h-12 text-base"
         />
         {errors.subject && (
-          <p className="text-destructive text-sm">{errors.subject.message}</p>
+          <p className="text-destructive text-xs">{errors.subject.message}</p>
         )}
       </div>
 
       {/* Message */}
-      <div className="space-y-2">
-        <Label htmlFor="message" className="text-luxury-caps text-foreground">
+      <div className="space-y-1.5">
+        <Label htmlFor="message" className="text-xs uppercase tracking-wider text-foreground font-medium">
           Message *
         </Label>
         <Textarea
           id="message"
           {...register('message')}
           placeholder="Tell us more about your enquiry..."
-          rows={5}
-          className="bg-background border-border focus:border-gold focus:ring-gold resize-none"
+          rows={4}
+          className="bg-background border-border focus:border-gold focus:ring-gold resize-none text-base"
         />
         {errors.message && (
-          <p className="text-destructive text-sm">{errors.message.message}</p>
+          <p className="text-destructive text-xs">{errors.message.message}</p>
         )}
       </div>
 
       {/* Submit Button */}
-      <Button
+      <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full btn-luxury"
+        className="btn-luxury w-full disabled:opacity-60 disabled:cursor-not-allowed"
       >
         {isSubmitting ? (
           <>
@@ -170,7 +169,7 @@ const ContactForm = () => {
             Send Enquiry
           </>
         )}
-      </Button>
+      </button>
     </form>
   );
 };

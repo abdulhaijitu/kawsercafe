@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useCallback, memo } from 'react';
 import Layout from '@/components/Layout';
 import AnimatedSection from '@/components/AnimatedSection';
+import OptimizedImage from '@/components/OptimizedImage';
 import { X } from 'lucide-react';
 
 import heroImage from '@/assets/hero-desserts.jpg';
@@ -35,47 +36,88 @@ const galleryImages: GalleryImage[] = [
   { src: affogatoImage, alt: 'Affogato', category: 'Coffee' },
 ];
 
+const categories = ['All', 'Desserts', 'Coffee', 'Ambiance', 'Craftsmanship'];
+
+const GalleryItem = memo(({ 
+  image, 
+  index, 
+  onClick 
+}: { 
+  image: GalleryImage; 
+  index: number; 
+  onClick: () => void;
+}) => (
+  <AnimatedSection delay={(index % 6) * 50}>
+    <button
+      onClick={onClick}
+      className="relative w-full aspect-square overflow-hidden group cursor-pointer focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2"
+      aria-label={`View ${image.alt}`}
+    >
+      <OptimizedImage
+        src={image.src}
+        alt={image.alt}
+        aspectRatio="aspect-square"
+        className="transition-transform duration-300 group-hover:scale-105 group-active:scale-100"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-250">
+        <div className="absolute bottom-0 left-0 right-0 p-4">
+          <p className="text-white font-serif text-base md:text-lg">{image.alt}</p>
+          <p className="text-white/70 text-xs uppercase tracking-wider">{image.category}</p>
+        </div>
+      </div>
+    </button>
+  </AnimatedSection>
+));
+
+GalleryItem.displayName = 'GalleryItem';
+
 const Gallery = () => {
   const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
   const [activeFilter, setActiveFilter] = useState<string>('All');
 
-  const categories = ['All', 'Desserts', 'Coffee', 'Ambiance', 'Craftsmanship'];
-  
   const filteredImages = activeFilter === 'All' 
     ? galleryImages 
     : galleryImages.filter(img => img.category === activeFilter);
 
+  const handleImageClick = useCallback((image: GalleryImage) => {
+    setSelectedImage(image);
+  }, []);
+
+  const handleClose = useCallback(() => {
+    setSelectedImage(null);
+  }, []);
+
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="pt-32 pb-20 md:pt-40 md:pb-28 bg-secondary">
+      <section className="pt-28 pb-12 md:pt-36 md:pb-20 bg-secondary">
         <div className="container-luxury">
-          <AnimatedSection className="text-center max-w-3xl mx-auto">
+          <AnimatedSection className="text-center max-w-2xl mx-auto">
             <span className="text-luxury-caps text-gold">Visual Stories</span>
-            <div className="gold-line mt-4 mb-8" />
-            <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl text-foreground mb-6">
+            <div className="gold-line mt-4 mb-6" />
+            <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-foreground mb-4">
               Gallery
             </h1>
-            <p className="text-muted-foreground text-lg">
+            <p className="text-muted-foreground text-base md:text-lg leading-relaxed">
               A glimpse into the world of DOLCE BARI—where every detail 
-              tells a story of craftsmanship and indulgence
+              tells a story of craftsmanship
             </p>
           </AnimatedSection>
         </div>
       </section>
 
       {/* Filter Tabs */}
-      <section className="py-8 bg-background border-b border-border sticky top-[72px] z-30">
+      <section className="py-4 md:py-6 bg-background border-b border-border sticky top-[60px] md:top-[72px] z-30">
         <div className="container-luxury">
-          <div className="flex flex-wrap justify-center gap-2 md:gap-4">
+          <div className="flex overflow-x-auto scrollbar-hide gap-2 md:gap-3 justify-start md:justify-center pb-2 md:pb-0 -mx-5 px-5 md:mx-0 md:px-0">
             {categories.map((category) => (
               <button
                 key={category}
                 onClick={() => setActiveFilter(category)}
-                className={`px-4 py-2 text-xs tracking-widest uppercase transition-all duration-200 ${
+                className={`flex-shrink-0 px-4 py-2.5 text-xs tracking-widest uppercase transition-all duration-200 touch-target ${
                   activeFilter === category
                     ? 'bg-primary text-primary-foreground'
-                    : 'bg-transparent text-muted-foreground hover:text-foreground hover:bg-secondary'
+                    : 'bg-secondary text-muted-foreground hover:text-foreground active:bg-muted'
                 }`}
               >
                 {category}
@@ -88,31 +130,19 @@ const Gallery = () => {
       {/* Gallery Grid */}
       <section className="section-padding bg-background">
         <div className="container-luxury">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-5">
             {filteredImages.map((image, index) => (
-              <AnimatedSection key={image.alt} delay={(index % 3) * 100}>
-                <button
-                  onClick={() => setSelectedImage(image)}
-                  className="relative w-full aspect-square overflow-hidden group cursor-pointer"
-                >
-                  <img
-                    src={image.src}
-                    alt={image.alt}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="absolute bottom-0 left-0 right-0 p-4">
-                      <p className="text-white font-serif text-lg">{image.alt}</p>
-                      <p className="text-white/70 text-xs uppercase tracking-wider">{image.category}</p>
-                    </div>
-                  </div>
-                </button>
-              </AnimatedSection>
+              <GalleryItem
+                key={image.alt}
+                image={image}
+                index={index}
+                onClick={() => handleImageClick(image)}
+              />
             ))}
           </div>
 
-          <AnimatedSection className="mt-16 text-center">
-            <p className="text-muted-foreground text-sm italic">
+          <AnimatedSection className="mt-12 text-center">
+            <p className="text-muted-foreground text-xs md:text-sm italic">
               *Images shown are placeholders and will be replaced with actual photography.
             </p>
           </AnimatedSection>
@@ -123,23 +153,25 @@ const Gallery = () => {
       {selectedImage && (
         <div 
           className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4 animate-fade-in"
-          onClick={() => setSelectedImage(null)}
+          onClick={handleClose}
+          role="dialog"
+          aria-modal="true"
         >
           <button
-            onClick={() => setSelectedImage(null)}
-            className="absolute top-6 right-6 text-white/70 hover:text-white transition-colors"
+            onClick={handleClose}
+            className="absolute top-4 right-4 md:top-6 md:right-6 text-white/70 hover:text-white transition-colors p-2 touch-target"
             aria-label="Close"
           >
-            <X size={32} />
+            <X size={28} />
           </button>
           <img
             src={selectedImage.src}
             alt={selectedImage.alt}
-            className="max-w-full max-h-[85vh] object-contain animate-scale-in"
+            className="max-w-full max-h-[80vh] object-contain animate-scale-in"
             onClick={(e) => e.stopPropagation()}
           />
-          <div className="absolute bottom-6 left-0 right-0 text-center">
-            <p className="text-white font-serif text-xl">{selectedImage.alt}</p>
+          <div className="absolute bottom-4 md:bottom-6 left-0 right-0 text-center px-4">
+            <p className="text-white font-serif text-lg md:text-xl">{selectedImage.alt}</p>
             <p className="text-white/60 text-xs uppercase tracking-wider mt-1">{selectedImage.category}</p>
           </div>
         </div>
