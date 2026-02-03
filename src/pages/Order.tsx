@@ -13,19 +13,19 @@ const Order = () => {
     <Layout>
       <PageTransition>
         {/* Hero Section */}
-        <section className="relative pt-32 pb-16 bg-secondary/30">
+        <section className="relative pt-28 pb-10 md:pt-36 md:pb-16 bg-secondary/30">
           <div className="container-luxury text-center">
             <AnimatedSection>
-              <span className="text-luxury-caps text-gold mb-4 block">
+              <span className="text-luxury-caps text-gold mb-3 block">
                 Online Order
               </span>
-              <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl text-foreground mb-4">
+              <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-foreground mb-3">
                 অর্ডার করুন
               </h1>
-              <p className="text-editorial text-muted-foreground text-lg max-w-xl mx-auto">
-                আমাদের সুস্বাদু ইতালিয়ান ডেজার্ট ও কফি অর্ডার করুন এবং পিকআপ করুন
+              <p className="text-editorial text-muted-foreground text-base md:text-lg max-w-md mx-auto">
+                আমাদের সুস্বাদু ইতালিয়ান ডেজার্ট ও কফি অর্ডার করুন
               </p>
-              <div className="gold-line mt-6" />
+              <div className="gold-line mt-5" />
             </AnimatedSection>
           </div>
         </section>
@@ -39,9 +39,9 @@ const Order = () => {
 
         {/* Floating Cart Button - Mobile */}
         {totalItems > 0 && (
-          <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 md:hidden">
+          <div className="fixed bottom-5 left-4 right-4 z-40 md:hidden">
             <CartDrawer>
-              <button className="flex items-center gap-3 px-6 py-3 bg-primary text-primary-foreground rounded-full shadow-elegant">
+              <button className="flex items-center justify-center gap-3 w-full px-5 py-4 bg-primary text-primary-foreground rounded-full shadow-elegant active:scale-[0.98] transition-transform">
                 <ShoppingBag size={20} />
                 <span className="font-medium">
                   {totalItems} আইটেম — ${totalAmount.toFixed(2)}
@@ -54,7 +54,7 @@ const Order = () => {
         {/* Desktop Cart */}
         <div className="hidden md:block fixed bottom-8 right-8 z-40">
           <CartDrawer>
-            <button className="relative p-4 bg-primary text-primary-foreground rounded-full shadow-elegant hover:scale-105 transition-transform">
+            <button className="relative p-4 bg-primary text-primary-foreground rounded-full shadow-elegant hover:scale-105 active:scale-100 transition-transform">
               <ShoppingBag size={24} />
               {totalItems > 0 && (
                 <span className="absolute -top-2 -right-2 w-6 h-6 bg-gold text-white text-sm rounded-full flex items-center justify-center font-medium">

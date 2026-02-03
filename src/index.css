@@ -142,48 +142,90 @@
 
   html {
     scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
   }
 
   body {
     @apply bg-background text-foreground antialiased;
     font-family: 'Montserrat', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
-  /* Elegant serif headings */
+  /* Elegant serif headings with improved mobile readability */
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Cormorant Garamond', serif;
     font-weight: 500;
     letter-spacing: 0.01em;
+    line-height: 1.2;
+  }
+
+  /* Improved body text readability */
+  p {
+    line-height: 1.7;
+  }
+
+  @media (max-width: 768px) {
+    p {
+      line-height: 1.8;
+    }
   }
 }
 
 @layer components {
-  /* Premium button variants */
+  /* Premium button variants with touch feedback */
   .btn-luxury {
-    @apply inline-flex items-center justify-center px-8 py-3.5 text-sm font-medium tracking-wider uppercase;
+    @apply inline-flex items-center justify-center px-6 py-3.5 text-sm font-medium tracking-wider uppercase;
     @apply bg-primary text-primary-foreground;
-    @apply transition-all duration-300 ease-out;
+    @apply transition-all duration-200 ease-out;
     @apply hover:shadow-elegant hover:-translate-y-0.5;
+    @apply active:scale-[0.98] active:shadow-none;
     font-family: 'Montserrat', sans-serif;
     letter-spacing: 0.15em;
+    min-height: 48px;
+    touch-action: manipulation;
+  }
+
+  @media (max-width: 640px) {
+    .btn-luxury {
+      @apply w-full justify-center px-4 py-4;
+    }
   }
 
   .btn-luxury-outline {
-    @apply inline-flex items-center justify-center px-8 py-3.5 text-sm font-medium tracking-wider uppercase;
+    @apply inline-flex items-center justify-center px-6 py-3.5 text-sm font-medium tracking-wider uppercase;
     @apply bg-transparent border border-primary text-primary;
-    @apply transition-all duration-300 ease-out;
+    @apply transition-all duration-200 ease-out;
     @apply hover:bg-primary hover:text-primary-foreground;
+    @apply active:scale-[0.98];
     font-family: 'Montserrat', sans-serif;
     letter-spacing: 0.15em;
+    min-height: 48px;
+    touch-action: manipulation;
+  }
+
+  @media (max-width: 640px) {
+    .btn-luxury-outline {
+      @apply w-full justify-center px-4 py-4;
+    }
   }
 
   .btn-gold {
-    @apply inline-flex items-center justify-center px-8 py-3.5 text-sm font-medium tracking-wider uppercase;
+    @apply inline-flex items-center justify-center px-6 py-3.5 text-sm font-medium tracking-wider uppercase;
     @apply bg-gold text-white;
-    @apply transition-all duration-300 ease-out;
+    @apply transition-all duration-200 ease-out;
     @apply hover:shadow-elegant hover:-translate-y-0.5;
+    @apply active:scale-[0.98] active:shadow-none;
     font-family: 'Montserrat', sans-serif;
     letter-spacing: 0.15em;
+    min-height: 48px;
+    touch-action: manipulation;
+  }
+
+  @media (max-width: 640px) {
+    .btn-gold {
+      @apply w-full justify-center px-4 py-4;
+    }
   }
 
   /* Editorial text styles */
@@ -201,11 +243,12 @@
     font-size: 0.75rem;
   }
 
-  /* Card styles */
+  /* Card styles with refined hover */
   .card-luxury {
     @apply bg-card rounded-sm overflow-hidden;
     box-shadow: var(--shadow-soft);
-    transition: all 0.3s ease-out;
+    transition: transform 0.25s ease-out, box-shadow 0.25s ease-out;
+    will-change: transform;
   }
 
   .card-luxury:hover {
@@ -213,13 +256,24 @@
     transform: translateY(-4px);
   }
 
-  /* Section spacing */
+  @media (max-width: 768px) {
+    .card-luxury:hover {
+      transform: none;
+      box-shadow: var(--shadow-soft);
+    }
+    
+    .card-luxury:active {
+      transform: scale(0.99);
+    }
+  }
+
+  /* Section spacing - refined for mobile */
   .section-padding {
-    @apply py-20 md:py-28 lg:py-32;
+    @apply py-16 md:py-24 lg:py-32;
   }
 
   .container-luxury {
-    @apply max-w-7xl mx-auto px-6 md:px-8 lg:px-12;
+    @apply max-w-7xl mx-auto px-5 md:px-8 lg:px-12;
   }
 
   /* Gold decorative line */
@@ -234,33 +288,42 @@
   /* Image overlay for gallery */
   .image-overlay {
     @apply absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent;
-    @apply opacity-0 transition-opacity duration-300;
+    @apply opacity-0 transition-opacity duration-250;
   }
 
   .image-overlay:hover {
     @apply opacity-100;
   }
+
+  /* Skeleton loading placeholder */
+  .skeleton {
+    @apply animate-pulse bg-muted rounded-sm;
+  }
+
+  /* Improved touch targets */
+  .touch-target {
+    @apply min-h-[44px] min-w-[44px];
+  }
 }
 
 @layer utilities {
-  /* Premium animations */
+  /* Premium animations - refined duration */
   .animate-fade-up {
-    animation: fadeUp 0.6s ease-out forwards;
+    animation: fadeUp 0.3s ease-out forwards;
   }
 
   .animate-fade-in {
-    animation: fadeIn 0.5s ease-out forwards;
+    animation: fadeIn 0.25s ease-out forwards;
   }
 
   .animate-scale-in {
-    animation: scaleIn 0.4s ease-out forwards;
+    animation: scaleIn 0.2s ease-out forwards;
   }
 
-  /* Stagger delays for reveals */
+  /* Stagger delays */
   .delay-100 { animation-delay: 100ms; }
   .delay-200 { animation-delay: 200ms; }
   .delay-300 { animation-delay: 300ms; }
-  .delay-400 { animation-delay: 400ms; }
 
   /* Glassmorphism effect */
   .glass {
@@ -270,12 +333,34 @@
   .glass-dark {
     @apply backdrop-blur-md bg-black/30 border border-white/10;
   }
+
+  /* Lazy loading image placeholder */
+  .img-loading {
+    @apply bg-muted;
+    background: linear-gradient(
+      90deg,
+      hsl(var(--muted)) 0%,
+      hsl(var(--muted-foreground) / 0.1) 50%,
+      hsl(var(--muted)) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+
+  /* Hide scrollbar but keep functionality */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 @keyframes fadeUp {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(16px);
   }
   to {
     opacity: 1;
@@ -284,21 +369,22 @@
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 @keyframes scaleIn {
   from {
     opacity: 0;
-    transform: scale(0.95);
+    transform: scale(0.97);
   }
   to {
     opacity: 1;
     transform: scale(1);
   }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
 }

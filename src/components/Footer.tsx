@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { MapPin, Phone, Clock } from 'lucide-react';
+import logo from '@/assets/logo.png';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -8,36 +9,42 @@ const Footer = () => {
     <footer className="bg-primary text-primary-foreground">
       {/* Main Footer Content */}
       <div className="container-luxury section-padding">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
           {/* Brand Column */}
-          <div className="lg:col-span-1">
+          <div className="sm:col-span-2 lg:col-span-1">
             <Link to="/" className="inline-block">
-              <h3 className="font-serif text-3xl font-medium tracking-wide mb-2">
-                DOLCE BARI
-              </h3>
-              <span className="text-luxury-caps text-primary-foreground/70 text-[10px]">
-                Sweets & Café
-              </span>
+              <img 
+                src={logo} 
+                alt="DOLCE BARI" 
+                className="h-10 w-auto brightness-0 invert opacity-90"
+              />
             </Link>
-            <p className="mt-6 text-primary-foreground/80 text-sm leading-relaxed">
+            <p className="mt-5 text-primary-foreground/80 text-sm leading-relaxed max-w-xs">
               A premium Italian dessert bar bringing the finest European 
-              confections to Melbourne's discerning palate.
+              confections to Melbourne.
             </p>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-luxury-caps text-gold-light mb-6">
+            <h4 className="text-luxury-caps text-gold-light mb-5">
               Quick Links
             </h4>
-            <nav className="flex flex-col gap-3">
-              {['Home', 'About', 'Menu', 'Gallery', 'Contact'].map((item) => (
+            <nav className="flex flex-col gap-2.5">
+              {[
+                { name: 'Home', path: '/' },
+                { name: 'About', path: '/about' },
+                { name: 'Menu', path: '/menu' },
+                { name: 'Gallery', path: '/gallery' },
+                { name: 'Contact', path: '/contact' },
+                { name: 'Order Online', path: '/order' },
+              ].map((item) => (
                 <Link
-                  key={item}
-                  to={item === 'Home' ? '/' : `/${item.toLowerCase()}`}
+                  key={item.name}
+                  to={item.path}
                   className="text-primary-foreground/80 hover:text-gold-light transition-colors duration-200 text-sm"
                 >
-                  {item}
+                  {item.name}
                 </Link>
               ))}
             </nav>
@@ -45,19 +52,19 @@ const Footer = () => {
 
           {/* Contact Info */}
           <div>
-            <h4 className="text-luxury-caps text-gold-light mb-6">
+            <h4 className="text-luxury-caps text-gold-light mb-5">
               Contact
             </h4>
             <div className="flex flex-col gap-4">
               <div className="flex items-start gap-3">
-                <MapPin size={18} className="text-gold-light mt-0.5 flex-shrink-0" />
-                <p className="text-primary-foreground/80 text-sm">
+                <MapPin size={16} className="text-gold-light mt-0.5 flex-shrink-0" />
+                <p className="text-primary-foreground/80 text-sm leading-relaxed">
                   320–326 Huntingdale Road,<br />
                   Huntingdale, VIC 3166
                 </p>
               </div>
               <div className="flex items-center gap-3">
-                <Phone size={18} className="text-gold-light flex-shrink-0" />
+                <Phone size={16} className="text-gold-light flex-shrink-0" />
                 <a 
                   href="tel:+61413669707" 
                   className="text-primary-foreground/80 hover:text-gold-light transition-colors text-sm"
@@ -70,11 +77,11 @@ const Footer = () => {
 
           {/* Hours */}
           <div>
-            <h4 className="text-luxury-caps text-gold-light mb-6">
+            <h4 className="text-luxury-caps text-gold-light mb-5">
               Hours
             </h4>
             <div className="flex items-start gap-3">
-              <Clock size={18} className="text-gold-light mt-0.5 flex-shrink-0" />
+              <Clock size={16} className="text-gold-light mt-0.5 flex-shrink-0" />
               <div className="text-primary-foreground/80 text-sm space-y-1">
                 <p>Mon – Fri: 7am – 6pm</p>
                 <p>Sat – Sun: 8am – 5pm</p>
@@ -86,12 +93,12 @@ const Footer = () => {
 
       {/* Bottom Bar */}
       <div className="border-t border-primary-foreground/10">
-        <div className="container-luxury py-6 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div className="container-luxury py-5 flex flex-col sm:flex-row justify-between items-center gap-3 text-center sm:text-left">
           <p className="text-primary-foreground/60 text-xs tracking-wide">
             © {currentYear} DOLCE BARI. All rights reserved.
           </p>
           <p className="text-primary-foreground/40 text-xs italic">
-            *Placeholder images shown. Final imagery to be replaced.
+            *Placeholder images shown.
           </p>
         </div>
       </div>

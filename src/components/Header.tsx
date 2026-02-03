@@ -21,7 +21,7 @@ const Header = () => {
       setIsScrolled(window.scrollY > 50);
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -29,26 +29,51 @@ const Header = () => {
     setIsMenuOpen(false);
   }, [location]);
 
+  // Prevent body scroll when menu is open
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isMenuOpen]);
+
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-250 ${
         isScrolled
-          ? 'bg-background/95 backdrop-blur-md shadow-soft py-4'
-          : 'bg-transparent py-6'
+          ? 'bg-background/95 backdrop-blur-md shadow-soft py-3'
+          : 'bg-transparent py-4 md:py-6'
       }`}
     >
       <div className="container-luxury flex items-center justify-between">
-        {/* Logo */}
-        <Link to="/" className="flex items-center">
+        {/* Mobile: Hamburger Left */}
+        <button
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          className="md:hidden p-2 -ml-2 text-foreground hover:text-gold transition-colors touch-target"
+          aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+          aria-expanded={isMenuOpen}
+        >
+          {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+
+        {/* Logo - Centered on mobile */}
+        <Link 
+          to="/" 
+          className="flex items-center md:flex-none absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0"
+        >
           <img 
             src={logo} 
             alt="DOLCE BARI" 
-            className="h-10 md:h-12 w-auto"
+            className="h-9 md:h-11 w-auto"
           />
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-10">
+        <nav className="hidden md:flex items-center gap-8 lg:gap-10">
           {navLinks.map((link) => (
             <Link
               key={link.path}
@@ -68,46 +93,58 @@ const Header = () => {
         <div className="hidden md:block">
           <Link
             to="/order"
-            className="btn-luxury-outline text-xs px-6 py-2.5"
+            className="btn-luxury-outline !w-auto text-xs px-5 py-2.5"
           >
             Order Online
           </Link>
         </div>
 
-        {/* Mobile Menu Button */}
-        <button
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="md:hidden p-2 text-foreground hover:text-gold transition-colors"
-          aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
-        >
-          {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-        </button>
+        {/* Spacer for mobile to balance the hamburger */}
+        <div className="w-10 md:hidden" />
       </div>
 
-      {/* Mobile Navigation */}
+      {/* Mobile Navigation Overlay */}
       <div
-        className={`md:hidden absolute top-full left-0 right-0 bg-background/98 backdrop-blur-md border-b border-border transition-all duration-300 overflow-hidden ${
-          isMenuOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'
+        className={`md:hidden fixed inset-0 top-0 bg-background z-40 transition-all duration-300 ${
+          isMenuOpen 
+            ? 'opacity-100 pointer-events-auto' 
+            : 'opacity-0 pointer-events-none'
         }`}
+        style={{ paddingTop: '72px' }}
       >
-        <nav className="container-luxury py-8 flex flex-col gap-6">
-          {navLinks.map((link) => (
+        {/* Close button at top */}
+        <button
+          onClick={() => setIsMenuOpen(false)}
+          className="absolute top-4 left-3 p-2 text-foreground hover:text-gold transition-colors touch-target"
+          aria-label="Close menu"
+        >
+          <X size={24} />
+        </button>
+
+        <nav className="flex flex-col items-center justify-center h-full gap-8 px-6">
+          {navLinks.map((link, index) => (
             <Link
               key={link.path}
               to={link.path}
-              className={`text-lg tracking-widest uppercase transition-colors duration-200 ${
+              className={`text-2xl tracking-widest uppercase transition-all duration-200 ${
                 location.pathname === link.path
                   ? 'text-gold'
                   : 'text-foreground hover:text-gold'
               }`}
+              style={{ 
+                animationDelay: `${index * 50}ms`,
+                animation: isMenuOpen ? 'fadeUp 0.3s ease-out forwards' : 'none'
+              }}
             >
               {link.name}
             </Link>
           ))}
-          <div className="pt-4 border-t border-border">
+          
+          <div className="pt-6 w-full max-w-xs">
             <Link
               to="/order"
-              className="btn-luxury-outline text-xs w-full text-center block"
+              className="btn-gold w-full text-center"
+              onClick={() => setIsMenuOpen(false)}
             >
               Order Online
             </Link>
