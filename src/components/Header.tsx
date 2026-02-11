@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import logo from '@/assets/logo.png';
+import logoWhite from '@/assets/logo-white.png';
 
 const navLinks = [
   { name: 'Home', path: '/' },
@@ -53,7 +54,9 @@ const Header = () => {
         {/* Mobile: Hamburger Left */}
         <button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="md:hidden p-2 -ml-2 text-foreground hover:text-gold transition-colors touch-target"
+          className={`md:hidden p-2 -ml-2 transition-colors touch-target ${
+            isScrolled ? 'text-foreground hover:text-gold' : 'text-white hover:text-gold-light'
+          }`}
           aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
           aria-expanded={isMenuOpen}
         >
@@ -68,7 +71,9 @@ const Header = () => {
           <img 
             src={logo} 
             alt="DOLCE BARI" 
-            className="h-9 md:h-11 w-auto"
+            className={`h-10 md:h-12 w-auto transition-all duration-200 ${
+              isScrolled ? '' : 'brightness-0 invert'
+            }`}
           />
         </Link>
 
@@ -79,9 +84,13 @@ const Header = () => {
               key={link.path}
               to={link.path}
               className={`text-sm tracking-widest uppercase transition-colors duration-200 ${
-                location.pathname === link.path
-                  ? 'text-gold'
-                  : 'text-foreground hover:text-gold'
+                isScrolled
+                  ? location.pathname === link.path
+                    ? 'text-gold'
+                    : 'text-foreground hover:text-gold'
+                  : location.pathname === link.path
+                    ? 'text-gold-light'
+                    : 'text-white hover:text-gold-light'
               }`}
             >
               {link.name}
@@ -93,7 +102,12 @@ const Header = () => {
         <div className="hidden md:block">
           <Link
             to="/order"
-            className="btn-luxury-outline !w-auto text-xs px-5 py-2.5"
+            className={`inline-flex items-center justify-center text-xs px-5 py-2.5 tracking-wider uppercase font-medium transition-all duration-200 border ${
+              isScrolled
+                ? 'border-primary text-primary hover:bg-primary hover:text-primary-foreground'
+                : 'border-white text-white hover:bg-white hover:text-primary'
+            }`}
+            style={{ fontFamily: "'Montserrat', sans-serif", letterSpacing: '0.15em', minHeight: '48px' }}
           >
             Order Online
           </Link>
