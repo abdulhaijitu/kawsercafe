@@ -16,7 +16,7 @@ const Footer = () => {
               <img 
                 src={logoWhite} 
                 alt="DOLCE BARI" 
-                className="h-10 w-auto"
+                className="h-14 w-auto brightness-0 invert"
               />
             </Link>
             <p className="mt-5 text-primary-foreground/80 text-sm leading-relaxed max-w-xs">
@@ -93,7 +93,7 @@ const Footer = () => {
 
       {/* Bottom Bar */}
       <div className="border-t border-primary-foreground/10">
-        <div className="container-luxury py-5 flex flex-col sm:flex-row justify-between items-center gap-3 text-center sm:text-left">
+        <div className="container-luxury py-4 flex flex-col sm:flex-row justify-between items-center gap-2 text-center sm:text-left">
           <p className="text-primary-foreground/60 text-xs tracking-wide">
             © {currentYear} DOLCE BARI. All rights reserved.
           </p>
